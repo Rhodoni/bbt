@@ -1,11 +1,16 @@
-package com.ut3.bbt;
+package com.ut3.bbt.viewholder;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+
+import androidx.activity.OnBackPressedCallback;
+
+import com.ut3.bbt.game.GameView;
+import com.ut3.bbt.R;
+import com.ut3.bbt.game.Pause;
 
 public class Opening extends Activity {
 
@@ -21,11 +26,19 @@ public class Opening extends Activity {
 
         btGame = (Button)findViewById(R.id.btGame);
         btGame.setOnClickListener(view -> {
-            new Intent(view.getContext(), GameView.class);
+            setContentView(new GameView(this));
         });
         btScore = (Button)findViewById(R.id.btScore);
         btScore.setOnClickListener(view -> {
-            new Intent(view.getContext(), Score.class);
+             Intent scoreIntent = new Intent(view.getContext(), Score.class);
+             startActivityForResult(scoreIntent, 0);
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent pauseIntent = new Intent(this, Pause.class);
+        startActivityForResult(pauseIntent, 0);
+
     }
 }
