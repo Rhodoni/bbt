@@ -1,8 +1,10 @@
 package com.ut3.bbt.entities;
 
 public class Player extends Movable {
-    public Player(float speed) {
-        super(10, speed);
+
+
+    public Player(double x, double y, double maxSpeed, double speed) {
+        super(x, y, maxSpeed);
     }
 
     public void jump() {

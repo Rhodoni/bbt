@@ -2,8 +2,9 @@ package com.ut3.bbt.entities;
 
 public class Skier extends Movable implements Scrollable {
 
-    public Skier(float speed) {
-        super(10, 0);
+
+    public Skier(double x, double y, double maxSpeed) {
+        super(x, y, maxSpeed);
     }
 
     public void goAway(Entity entity) {
@@ -16,7 +17,7 @@ public class Skier extends Movable implements Scrollable {
 
     @Override
     public void scroll(int speed) {
-        y += speed * 0.8;
+        y -= speed * 0.8;
     }
 
     @Override

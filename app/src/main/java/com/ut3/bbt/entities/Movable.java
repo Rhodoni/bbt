@@ -7,9 +7,11 @@ public abstract class Movable extends Entity {
 
     public CollideBox hurtBox;
 
-    public Movable(double maxSpeed, double speed) {
+    public Movable(double x, double y, double maxSpeed) {
+        super(x, y);
+
         this.maxSpeed = maxSpeed;
-        this.speed = speed;
+        this.speed = maxSpeed / 2;
         this.acceleration = 0.1;
 
         this.hurtBox = new CollideBox(1, 2);
