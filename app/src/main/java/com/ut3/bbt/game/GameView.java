@@ -81,6 +81,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
         }
 
+        public void pause (){
+                thread.setRunning(false);
+        }
+        public void unpause(){
+                thread.setRunning(true);
+        }
         public void update() {
                 if (Math.random() * 100 < 1) {
                         createEntity();
