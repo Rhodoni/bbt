@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import androidx.activity.OnBackPressedCallback;
-
 import com.ut3.bbt.game.GameView;
 import com.ut3.bbt.R;
 import com.ut3.bbt.game.Pause;
@@ -20,7 +18,9 @@ public class Opening extends Activity {
     private Button btScore;
 
     private SharedPreferences sharedPreferences;
-    public boolean gameStarted;
+    private SharedPreferences.Editor editor;
+    private GameView gameView;
+    public boolean gameRunning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +29,15 @@ public class Opening extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.opening);
 
-        gameStarted = false;
-
-        sharedPreferences = this.getSharedPreferences("gameStarted", Context.MODE_PRIVATE);
-        gameStarted = sharedPreferences.getBoolean("gameStarted",gameStarted);
-
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("gameStarted", gameStarted);
-        editor.apply();
+        sharedPreferences = this.getSharedPreferences("game", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        gameRunning = sharedPreferences.getBoolean("gameRunning", false);
 
         btGame = (Button)findViewById(R.id.btGame);
         btGame.setOnClickListener(view -> {
-            setContentView(new GameView(this));
+            gameRunning = true;
+            editor.putBoolean("gameRunning", true);
+            setContentView(gameView = new GameView(this));
         });
         btScore = (Button)findViewById(R.id.btScore);
         btScore.setOnClickListener(view -> {
@@ -51,7 +48,8 @@ public class Opening extends Activity {
 
     @Override
     public void onBackPressed() {
-        if(gameStarted=true) {
+        if(gameRunning = true) {
+            gameView.pause();
             Intent pauseIntent = new Intent(this, Pause.class);
             startActivityForResult(pauseIntent, 1);
         }
@@ -61,11 +59,11 @@ public class Opening extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                if(!Boolean.parseBoolean(data.getStringExtra("result"))){
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("gameStarted", false);
-                    editor.apply();
-                    setContentView(R.layout.opening);
+                if(!(data.getBooleanExtra("result",false))){
+                    finish();
+                    startActivity(this.getIntent());
+                }else{
+                    gameView.unpause();
                 }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
