@@ -1,25 +1,45 @@
 package com.ut3.bbt.entities;
 
-public class Movable extends Entity{
+public abstract class Movable extends Entity {
+    double maxSpeed;
+    double speed;
+    double acceleration;
 
-    float maxSpeed;
-    float speed;
+    public CollideBox hurtBox;
 
-    public Movable(float maxSpeed, float speed) {
+    public Movable(double maxSpeed, double speed) {
         this.maxSpeed = maxSpeed;
         this.speed = speed;
+        this.acceleration = 0.1;
+
+        this.hurtBox = new CollideBox(1, 2);
     }
 
-    public void collision(Entity entity) {
-
+    public boolean checkCollision(Entity entity) {
+        return x < entity.x + entity.hitBox.width &&
+                x + hurtBox.width > entity.x &&
+                y < entity.y + entity.hitBox.height &&
+                hurtBox.height + y > entity.y;
     }
 
-    public void move() {
+    public abstract void collision(Entity entity);
+
+    @Override
+    public void update() {
+        updateSpeed();
+        updatePosition();
+    }
+
+    public void updateSpeed() {
+        speed = Math.min(maxSpeed, speed + acceleration);
+    }
+
+    public void updatePosition() {
         x += speed;
     }
 
     public void turn() {
-
+        acceleration = -acceleration;
     }
 
     public void die() {

@@ -13,5 +13,8 @@ public class Player extends Movable {
 
     }
 
-
+    @Override
+    public void collision(Entity entity) {
+        die();
+    }
 }

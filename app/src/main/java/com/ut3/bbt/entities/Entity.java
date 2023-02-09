@@ -1,6 +1,10 @@
 package com.ut3.bbt.entities;
 
-public class Entity {
-    protected int x;
-    protected int y;
+public abstract class Entity {
+    public int x;
+    public int y;
+
+    public CollideBox hitBox;
+
+    public abstract void update();
 }

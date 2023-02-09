@@ -9,6 +9,11 @@ public class Obstacle extends Entity implements Scrollable {
     }
 
     @Override
+    public void update() {
+
+    }
+
+    @Override
     public void scroll(int speed) {
         y = y + speed;
     }
