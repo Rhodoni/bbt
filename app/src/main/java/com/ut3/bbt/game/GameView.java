@@ -2,6 +2,7 @@ package com.ut3.bbt.game;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -17,16 +18,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         private Context context;
         private GameThread thread;
         private int width,height;
+        private boolean gameStarted;
 
         public GameView(Context context) {
                 super(context);
                 thread = new GameThread(getHolder(), this);
                 this.context = context;
+
+                SharedPreferences sh = context.getSharedPreferences("gameStarted",Context.MODE_PRIVATE);
+                gameStarted = sh.getBoolean("gameStarted",gameStarted);
+
                 getHolder().addCallback(this);
                 DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
                 width = displayMetrics.widthPixels;
                 height = displayMetrics.heightPixels;
         }
+
 
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
@@ -39,15 +46,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
         @Override
         public void surfaceDestroyed(SurfaceHolder holder) {
-                boolean retry = true;
-                while (retry) {
-                        try {
-                                thread.setRunning(false);
-                                thread.join();
-                        } catch (InterruptedException e) {
-                                e.printStackTrace();
-                        }
-                }
+                thread.setRunning(false);
         }
 
         @Override
