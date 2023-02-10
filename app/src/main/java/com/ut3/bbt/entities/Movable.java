@@ -8,20 +8,22 @@ public abstract class Movable extends Entity {
     public CollideBox hurtBox;
 
     public Movable(double x, double y, double maxSpeed) {
-        super(x, y);
+        super(x, y, 50, 100);
 
         this.maxSpeed = maxSpeed;
-        this.speed = maxSpeed / 2;
-        this.acceleration = 0.1;
+        this.speed = 0;
+        this.acceleration = 0.03;
 
-        this.hurtBox = new CollideBox(1, 2);
+        this.hurtBox = new CollideBox(0, 0, width, height);
     }
 
-    public boolean checkCollision(Entity entity) {
-        return x < entity.x + entity.hitBox.width &&
+    public void checkCollision(Entity entity) {
+        if(x < entity.x + entity.hitBox.width &&
                 x + hurtBox.width > entity.x &&
                 y < entity.y + entity.hitBox.height &&
-                hurtBox.height + y > entity.y;
+                hurtBox.height + y > entity.y) {
+            collision(entity);
+        }
     }
 
     public abstract void collision(Entity entity);

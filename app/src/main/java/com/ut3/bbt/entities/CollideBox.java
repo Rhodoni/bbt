@@ -1,10 +1,14 @@
 package com.ut3.bbt.entities;
 
 public class CollideBox {
-    public int width;
-    public int height;
+    public double x;
+    public double y;
+    public double width;
+    public double height;
 
-    public CollideBox(int width, int height) {
+    public CollideBox(double x, double y, double width, double height) {
+        this.x = x;
+        this.y = y;
         this.width = width;
         this.height = height;
     }

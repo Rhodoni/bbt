@@ -50,8 +50,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         public void initialiseGame() {
-
-                scrollSpeed = 1;
+                scrollSpeed = 5;
                 player = new Player(width/2, 50, 10, 1);
         }
 
@@ -78,6 +77,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
                         // Draw Game
                         obstacles.forEach(obstacle -> obstacle.draw(canvas));
+                        skiers.forEach(skier -> skier.draw(canvas));
+                        player.draw(canvas);
                 }
         }
 
@@ -92,19 +93,36 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         createEntity();
                 }
 
+                // Check collisions
+                //skiers.forEach(skier -> obstacles.forEach(skier::checkCollision));
+                skiers.forEach(skier -> skier.checkCollision(player));
+                skiers.forEach(player::checkCollision);
+
+                // Update
+                skiers.forEach(Skier::update);
+                player.update();
+
                 // Scroll
                 obstacles.forEach(obstacle -> obstacle.scroll(scrollSpeed));
                 skiers.forEach(skier -> skier.scroll(scrollSpeed));
+
+                // Clean entities
+                cleanEntities();
         }
 
-        public void createEntity() {
+        private void createEntity() {
                 double random = Math.random() * (10);
                 if (random < 4) {
-                        obstacles.add(new Rock(Math.random() * width, height / 2));
+                        obstacles.add(new Rock(Math.random() * width, height));
                 } else if (random < 8) {
-                        obstacles.add(new Tree(Math.random() * width, height / 2));
+                        obstacles.add(new Tree(Math.random() * width, height));
                 } else if (random < 10) {
-                        skiers.add(new Skier(Math.random() * width, height / 2, Math.random() * 5));
+                        skiers.add(new Skier(Math.random() * width, height, Math.random() * 5 + 5));
                 }
+        }
+
+        private void cleanEntities() {
+                obstacles.removeIf(obstacle -> !Utils.isInScreen(obstacle, width, height  + obstacle.getHeight()));
+                skiers.removeIf(skier -> !Utils.isInScreen(skier, width, height + skier.getHeight()));
         }
 }
