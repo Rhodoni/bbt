@@ -94,7 +94,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
 
                 // Check collisions
-                //skiers.forEach(skier -> obstacles.forEach(skier::checkCollision));
+                // skiers.forEach(skier -> obstacles.forEach(skier::checkCollision));
                 skiers.forEach(skier -> skier.checkCollision(player));
                 skiers.forEach(player::checkCollision);
 

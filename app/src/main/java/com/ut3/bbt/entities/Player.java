@@ -1,9 +1,11 @@
 package com.ut3.bbt.entities;
 
 import android.graphics.Color;
+import android.os.Handler;
 
 public class Player extends Movable {
 
+    boolean jumping = false;
 
     public Player(double x, double y, double maxSpeed, double speed) {
         super(x, y, maxSpeed);
@@ -13,8 +15,19 @@ public class Player extends Movable {
     }
 
     public void jump() {
-
+        jumping = true;
+        paint.setColor(Color.CYAN);
+        Handler handler = new Handler();
+        handler.postDelayed(landAfterJumpRunnable, 5000);
     }
+
+    public Runnable landAfterJumpRunnable = new Runnable() {
+        @Override
+        public void run() {
+            jumping = false;
+            paint.setColor(Color.BLUE);
+        }
+    };
 
     public void scream() {
 
@@ -31,6 +44,12 @@ public class Player extends Movable {
 
     @Override
     public void collision(Entity entity) {
-        die();
+        if (entity instanceof Obstacle) {
+            if (!jumping) {
+                die();
+            }
+        } else {
+            die();
+        }
     }
 }
