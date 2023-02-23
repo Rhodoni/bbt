@@ -19,6 +19,8 @@ public abstract class Entity {
         this.width = width;
         this.height = height;
 
+        this.hitBox = new CollideBox(0, 0, width, height);
+
         paint = new Paint();
     }
 

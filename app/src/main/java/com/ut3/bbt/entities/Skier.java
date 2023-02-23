@@ -8,8 +8,7 @@ public class Skier extends Movable implements Scrollable {
 
     public Skier(double x, double y, double maxSpeed) {
         super(x, y, maxSpeed);
-        hitBox = new CollideBox(0, 0, 5, 10);
-
+        System.out.println("create skier");
         paint.setColor(Color.RED);
     }
 
@@ -35,7 +34,10 @@ public class Skier extends Movable implements Scrollable {
 
     @Override
     public void collision(Entity entity) {
-        if (entity instanceof Obstacle) {
+        System.out.println(this + " : colision : " + entity);
+        if (entity instanceof Wall) {
+            turn();
+        } else if (entity instanceof Obstacle) {
             turn();
         }
     }

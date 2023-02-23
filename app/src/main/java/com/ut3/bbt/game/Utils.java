@@ -21,4 +21,8 @@ public class Utils {
     public static boolean isInScreen(Entity e, double screenWidth, double screenHeight) {
         return isInScreen(e.getX(), e.getY(), e.getWidth(), e.getHeight(), screenWidth, screenHeight);
     }
+
+    public static boolean isInGame(Entity e, double screenWidth, double screenHeight) {
+        return isTouching(e.getX(), e.getY(), e.getWidth(), e.getHeight(), -screenWidth, 0, screenWidth*2, screenHeight);
+    }
 }
