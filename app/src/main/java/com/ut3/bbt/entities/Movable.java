@@ -1,9 +1,16 @@
 package com.ut3.bbt.entities;
 
+import android.os.Handler;
+
+import java.util.Timer;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 public abstract class Movable extends Entity {
     double maxSpeed;
     double speed;
     double acceleration;
+    boolean turning;
 
     public CollideBox hurtBox;
 
@@ -12,13 +19,15 @@ public abstract class Movable extends Entity {
 
         this.maxSpeed = maxSpeed;
         this.speed = 0;
-        this.acceleration = 0.03;
+        this.acceleration = 0.1;
+        this.turning = false;
 
         this.hurtBox = new CollideBox(0, 0, width, height);
+
     }
 
     public void checkCollision(Entity entity) {
-        if(x < entity.x + entity.hitBox.width &&
+        if (x < entity.x + entity.hitBox.width &&
                 x + hurtBox.width > entity.x &&
                 y < entity.y + entity.hitBox.height &&
                 hurtBox.height + y > entity.y) {
@@ -35,7 +44,8 @@ public abstract class Movable extends Entity {
     }
 
     public void updateSpeed() {
-        speed = Math.min(maxSpeed, speed + acceleration);
+        double newSpeed = speed + acceleration;
+        speed = Math.max(Math.min(maxSpeed, newSpeed), -maxSpeed);
     }
 
     public void updatePosition() {
@@ -43,10 +53,20 @@ public abstract class Movable extends Entity {
     }
 
     public void turn() {
-        acceleration = -acceleration;
+        if (!isTurning()) {
+            acceleration = -acceleration;
+            turning = true;
+
+            Executors.newSingleThreadScheduledExecutor()
+                    .schedule(() -> this.turning = false,4000, TimeUnit.MILLISECONDS);
+        }
+    }
+
+    public boolean isTurning() {
+        return turning;
     }
 
     public void die() {
-
+        System.out.println("MORT");
     }
 }

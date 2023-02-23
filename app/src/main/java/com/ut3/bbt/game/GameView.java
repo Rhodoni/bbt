@@ -17,6 +17,7 @@ import com.ut3.bbt.entities.Player;
 import com.ut3.bbt.entities.Rock;
 import com.ut3.bbt.entities.Skier;
 import com.ut3.bbt.entities.Tree;
+import com.ut3.bbt.entities.Wall;
 import com.ut3.bbt.game.GameThread;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         private int scrollSpeed;
         private List<Obstacle> obstacles = new ArrayList<Obstacle>();
         private List<Skier> skiers = new ArrayList<Skier>();
+        private List<Wall> walls = new ArrayList<>();
         private Player player;
 
         public GameView(Context context) {
@@ -50,8 +52,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         public void initialiseGame() {
+                int margin = 50;
                 scrollSpeed = 5;
                 player = new Player(width/2, 50, 10, 1);
+                walls.add(new Wall(margin, 0, 50, height));
+                walls.add(new Wall(width - margin * 2, 0, margin, height));
+
+                skiers.add(new Skier(Math.random() * width, height, Math.random() * 2 + 2));
         }
 
 
@@ -60,10 +67,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 thread.setRunning(true);
                 thread.start();
         }
+
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 
         }
+
         @Override
         public void surfaceDestroyed(SurfaceHolder holder) {
                 thread.setRunning(false);
@@ -79,6 +88,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         obstacles.forEach(obstacle -> obstacle.draw(canvas));
                         skiers.forEach(skier -> skier.draw(canvas));
                         player.draw(canvas);
+                        walls.get(0).draw(canvas);
+                        walls.get(1).draw(canvas);
                 }
         }
 
@@ -94,9 +105,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
 
                 // Check collisions
-                //skiers.forEach(skier -> obstacles.forEach(skier::checkCollision));
+                skiers.forEach(skier -> obstacles.forEach(skier::checkCollision));
                 skiers.forEach(skier -> skier.checkCollision(player));
                 skiers.forEach(player::checkCollision);
+                skiers.forEach(skier -> {
+                        skier.checkCollision(walls.get(0));
+                        skier.checkCollision(walls.get(1));
+                });
 
                 // Update
                 skiers.forEach(Skier::update);
@@ -117,12 +132,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 } else if (random < 8) {
                         obstacles.add(new Tree(Math.random() * width, height));
                 } else if (random < 10) {
-                        skiers.add(new Skier(Math.random() * width, height, Math.random() * 5 + 5));
+                        System.out.println("HOAIZHDO");
+                        skiers.add(new Skier(Math.random() * width, height / 2, Math.random() * 2 + 2));
                 }
         }
 
         private void cleanEntities() {
                 obstacles.removeIf(obstacle -> !Utils.isInScreen(obstacle, width, height  + obstacle.getHeight()));
-                skiers.removeIf(skier -> !Utils.isInScreen(skier, width, height + skier.getHeight()));
+                skiers.removeIf(skier -> !Utils.isInGame(skier, width, height + skier.getHeight()));
         }
 }
