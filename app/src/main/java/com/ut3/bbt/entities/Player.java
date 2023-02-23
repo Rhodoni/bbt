@@ -38,11 +38,6 @@ public class Player extends Movable {
 
     @Override
     public void update() {
-        super.update();
-
-        if (Math.random() * 20 < 1) {
-            turn();
-        }
     }
 
     @Override
