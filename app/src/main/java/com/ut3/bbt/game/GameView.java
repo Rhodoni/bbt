@@ -26,6 +26,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         private Context context;
         private GameThread thread;
         private int width,height;
+        private CaptorActivity captorActivity;
         private boolean gameStarted;
 
         private int scrollSpeed;
@@ -45,7 +46,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
                 width = displayMetrics.widthPixels;
                 height = displayMetrics.heightPixels;
-
+                this.captorActivity = new CaptorActivity();
+                this.captorActivity.setUpSensors(this.context);
                 initialiseGame();
         }
 
@@ -100,6 +102,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
                 // Update
                 skiers.forEach(Skier::update);
+                if(captorActivity.isJumping){
+                        player.jump();
+                }
                 player.update();
 
                 // Scroll

@@ -7,7 +7,6 @@ public class GameThread extends Thread{
 
     private SurfaceHolder surfaceHolder;
     private GameView gameView;
-    private CaptorActivity captorActivity;
     private boolean running;
     private Canvas canvas;
 
@@ -15,7 +14,6 @@ public class GameThread extends Thread{
         super();
         this.surfaceHolder = surfaceHolder;
         this.gameView = gameView;
-        this.captorActivity.setUpSensors(gameView.getContext());
     }
 
     public void setRunning(boolean isRunning) {

@@ -3,6 +3,9 @@ package com.ut3.bbt.entities;
 import android.graphics.Color;
 import android.os.Handler;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 public class Player extends Movable {
 
     boolean jumping = false;
@@ -17,8 +20,8 @@ public class Player extends Movable {
     public void jump() {
         jumping = true;
         paint.setColor(Color.CYAN);
-        Handler handler = new Handler();
-        handler.postDelayed(landAfterJumpRunnable, 5000);
+        Executors.newSingleThreadScheduledExecutor()
+                .schedule(landAfterJumpRunnable,500, TimeUnit.MILLISECONDS);
     }
 
     public Runnable landAfterJumpRunnable = new Runnable() {
@@ -45,11 +48,9 @@ public class Player extends Movable {
     @Override
     public void collision(Entity entity) {
         if (entity instanceof Obstacle) {
-            if (!jumping) {
+            if( ! ((Obstacle) entity).isJumpable() && jumping){
                 die();
             }
-        } else {
-            die();
         }
     }
 }
