@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 
 import com.ut3.bbt.R;
 
@@ -15,6 +16,8 @@ public class Player extends Movable {
     boolean jumping = false;
     public boolean isDead = false;
     private final Context context;
+    private double minWidth, maxWidth;
+    private double margin = 50;
 
     public Player(double x, double y, double maxSpeed, double speed, Context context) {
         super(
@@ -28,6 +31,10 @@ public class Player extends Movable {
         this.context = context;
         this.bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.skier);
         paint.setColor(Color.BLUE);
+
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        maxWidth = displayMetrics.widthPixels - margin*6;
+        minWidth = margin;
 
         this.hitBox = new CollideBox(width / 4, height * 3 / 4, width / 2, height / 4);
         this.hurtBox = this.hitBox;
@@ -58,7 +65,18 @@ public class Player extends Movable {
 
     @Override
     public void update() {
-        super.update();
+        updateSpeed();
+        updatePosition();
+    }
+
+    public void updateSpeed() {
+        double newSpeed = speed + acceleration;
+        speed = Math.max(Math.min(maxSpeed, newSpeed), -maxSpeed);
+    }
+
+    public void updatePosition() {
+        if ( minWidth < x + speed && x + speed < maxWidth)
+        x += speed;
     }
 
     @Override
