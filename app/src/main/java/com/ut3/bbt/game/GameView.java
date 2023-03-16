@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
 
@@ -41,6 +42,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         private List<Wall> walls = new ArrayList<>();
         private Player player;
         private int score = 0;
+        private TextView scoreview;
 
         //SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
@@ -67,6 +69,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 int margin = 50;
                 scrollSpeed = 5;
                 player = new Player(width/2, 50, 10, 1,context);
+                scoreview = new TextView(context);
+                scoreview.setText(("score"));
                 walls.add(new Wall(margin, 0, 50, height));
                 walls.add(new Wall(width - margin * 2, 0, margin, height));
 
@@ -113,17 +117,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         public void endGame(){
+
+                SharedPreferences sharedp = context.getSharedPreferences("gameEnd",Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedp.edit();
-                editor.putInt("score",score);
+                editor.putInt("score",score).apply();
                 ((Opening)context).endingGame();
         }
 
         public void update() {
+                // Update level
+                score += 1;
+                updateDifficulty();
+
                 if (player.isDead){
                         endGame();
                 }
-
-                score += 1;
 
                 if (Math.random() * 100 < 1) {
                         createEntity();
@@ -138,7 +146,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         skier.checkCollision(walls.get(1));
                 });
 
-                // Update
+                // Update entities
                 skiers.forEach(Skier::update);
                 if (captorActivity.isJumping) {
                         player.jump();
@@ -163,6 +171,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 } else if (random < 10) {
                         skiers.add(new Skier(Math.random() * width, height / 2, Math.random() * 2 + 2, context));
                 }
+        }
+
+        private void updateDifficulty() {
+                this.scrollSpeed = (int) Math.round(10 + Math.sqrt(this.score) / 100);
         }
 
         private void cleanEntities() {
