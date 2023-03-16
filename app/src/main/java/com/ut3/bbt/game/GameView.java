@@ -117,9 +117,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
                 // Update
                 skiers.forEach(Skier::update);
-                if(captorActivity.isJumping){
+                if (captorActivity.isJumping) {
                         player.jump();
                 }
+                player.setAcceleration(captorActivity.playerAcceleration);
                 player.update();
 
                 // Scroll
