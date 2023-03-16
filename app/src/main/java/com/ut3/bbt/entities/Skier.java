@@ -14,7 +14,6 @@ public class Skier extends Movable implements Scrollable {
         super(x, y, maxSpeed);
         paint.setColor(Color.RED);
         this.bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.ops);
-
     }
 
     public void goAway(Entity entity) {

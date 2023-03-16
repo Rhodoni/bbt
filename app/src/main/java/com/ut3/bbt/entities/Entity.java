@@ -30,6 +30,7 @@ public abstract class Entity {
 
     public void draw(Canvas canvas) {
         canvas.drawBitmap(bmp, (float) (x + width), (float) (y + height), paint);
+        
     }
     public void draw2(Canvas canvas) {
         canvas.drawRect((float) x, (float) y, (float) (x + width), (float) (y + height), paint);

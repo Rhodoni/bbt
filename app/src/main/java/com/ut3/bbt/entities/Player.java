@@ -27,7 +27,7 @@ public class Player extends Movable {
         jumping = true;
         this.bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.jumping);
         Executors.newSingleThreadScheduledExecutor()
-                .schedule(landAfterJumpRunnable,2000, TimeUnit.MILLISECONDS);
+                .schedule(landAfterJumpRunnable,1500, TimeUnit.MILLISECONDS);
     }
 
     public Runnable landAfterJumpRunnable = new Runnable() {

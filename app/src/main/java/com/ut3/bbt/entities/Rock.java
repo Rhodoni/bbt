@@ -10,6 +10,7 @@ public class Rock extends Obstacle {
     public Rock(double x, double y, Context context) {
         super(x, y, 50, 50);
         paint.setColor(Color.GRAY);
+
         this.bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.rocks);
     }
 
