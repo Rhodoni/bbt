@@ -1,5 +1,6 @@
 package com.ut3.bbt.entities;
 
+import android.graphics.Canvas;
 import android.os.Handler;
 
 import java.util.Timer;
@@ -14,8 +15,8 @@ public abstract class Movable extends Entity {
 
     public CollideBox hurtBox;
 
-    public Movable(double x, double y, double maxSpeed) {
-        super(x, y, 50, 100);
+    public Movable(double x, double y, double width, double height, double maxSpeed) {
+        super(x, y, width, height);
 
         this.maxSpeed = maxSpeed;
         this.speed = 0;
@@ -26,10 +27,11 @@ public abstract class Movable extends Entity {
     }
 
     public void checkCollision(Entity entity) {
-        if (x < entity.x + entity.hitBox.width &&
-                x + hurtBox.width > entity.x &&
-                y < entity.y + entity.hitBox.height &&
-                hurtBox.height + y > entity.y) {
+        if (x + hurtBox.x < entity.x + entity.hitBox.x + entity.hitBox.width &&
+            x + hurtBox.x + hurtBox.width > entity.x + entity.hitBox.x &&
+            y + hurtBox.y < entity.y + entity.hitBox.y + entity.hitBox.height &&
+            y + hurtBox.y + hurtBox.height > entity.y + entity.hitBox.y)
+        {
             collision(entity);
         }
     }

@@ -14,13 +14,23 @@ public class Player extends Movable {
 
     boolean jumping = false;
     public boolean isDead = false;
-    private Context context;
+    private final Context context;
 
     public Player(double x, double y, double maxSpeed, double speed, Context context) {
-        super(x, y, maxSpeed);
+        super(
+            x,
+            y,
+            BitmapFactory.decodeResource(context.getResources(), R.drawable.ops).getWidth(),
+            BitmapFactory.decodeResource(context.getResources(), R.drawable.ops).getHeight(),
+            maxSpeed
+        );
+
         this.context = context;
         this.bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.skier);
         paint.setColor(Color.BLUE);
+
+        this.hitBox = new CollideBox(width / 4, 0, width / 2, height);
+        this.hurtBox = this.hitBox;
     }
 
     public void jump() {
@@ -56,7 +66,7 @@ public class Player extends Movable {
         System.out.println("PLAYER COLLITION");
         if (entity instanceof Obstacle) {
             Obstacle obstacle = (Obstacle) entity;
-            if (!obstacle.isJumpable() && jumping) {
+            if (!obstacle.isJumpable() || obstacle.isJumpable() && !jumping) {
                 System.out.println("DEAD");
                 die();
             }

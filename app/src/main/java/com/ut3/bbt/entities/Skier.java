@@ -11,9 +11,20 @@ public class Skier extends Movable implements Scrollable {
 
 
     public Skier(double x, double y, double maxSpeed, Context context) {
-        super(x, y, maxSpeed);
-        paint.setColor(Color.RED);
+        super(
+            x,
+            y,
+            BitmapFactory.decodeResource(context.getResources(), R.drawable.ops).getWidth(),
+            BitmapFactory.decodeResource(context.getResources(), R.drawable.ops).getHeight(),
+            maxSpeed
+        );
+
         this.bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.ops);
+
+        paint.setColor(Color.RED);
+
+        this.hitBox = new CollideBox(width / 4, height / 2, width / 2, height / 2);
+        this.hurtBox = new CollideBox( -width / 2, 0, width * 2, height * 2);
     }
 
     public void goAway(Entity entity) {
@@ -41,7 +52,11 @@ public class Skier extends Movable implements Scrollable {
         if (entity instanceof Wall) {
             turn();
         } else if (entity instanceof Obstacle) {
-            turn();
+            if (x < entity.x && acceleration > 0 || x > entity.x && acceleration < 0) {
+                turn();
+                System.out.println("--------------- > TURNING OBSTA");
+            }
+
         }
     }
 }

@@ -21,7 +21,7 @@ public abstract class Entity {
         this.width = width;
         this.height = height;
 
-        this.hitBox = new CollideBox(0, 0, width, height);
+        this.hitBox = new CollideBox(width / 2, height / 2, width, height);
 
         paint = new Paint();
     }
@@ -29,9 +29,10 @@ public abstract class Entity {
     public abstract void update();
 
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(bmp, (float) (x + width), (float) (y + height), paint);
-        
+        //canvas.drawRect((float) (x + hitBox.x), (float) (y + hitBox.y), (float) (x + hitBox.x + hitBox.width), (float) (y + hitBox.y + hitBox.height), paint);
+        canvas.drawBitmap(bmp, (float) x, (float) y, paint);
     }
+
     public void draw2(Canvas canvas) {
         canvas.drawRect((float) x, (float) y, (float) (x + width), (float) (y + height), paint);
     }
