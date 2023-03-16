@@ -27,12 +27,6 @@ public class Skier extends Movable implements Scrollable {
         this.hurtBox = new CollideBox( -width / 2, 0, width * 2, height * 2);
     }
 
-    public void goAway(Entity entity) {
-        if (x < entity.x) {
-
-        }
-    }
-
     @Override
     public void update() {
         super.update();
@@ -50,11 +44,12 @@ public class Skier extends Movable implements Scrollable {
     @Override
     public void collision(Entity entity) {
         if (entity instanceof Wall) {
-            turn();
+            if (entity.x <= 0 && acceleration < 0 || entity.x > 0 && acceleration > 0) {
+                turn();
+            }
         } else if (entity instanceof Obstacle) {
             if (x < entity.x && acceleration > 0 || x > entity.x && acceleration < 0) {
                 turn();
-                System.out.println("--------------- > TURNING OBSTA");
             }
 
         }

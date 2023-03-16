@@ -33,10 +33,6 @@ public abstract class Entity {
         canvas.drawBitmap(bmp, (float) x, (float) y, paint);
     }
 
-    public void draw2(Canvas canvas) {
-        canvas.drawRect((float) x, (float) y, (float) (x + width), (float) (y + height), paint);
-    }
-
     public double getX() {
         return x;
     }
@@ -51,5 +47,13 @@ public abstract class Entity {
 
     public double getHeight() {
         return height;
+    }
+
+    public void setBmp(Bitmap bmp) {
+        this.bmp = bmp;
+    }
+
+    public CollideBox getHitBox() {
+        return this.hitBox;
     }
 }

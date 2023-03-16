@@ -2,6 +2,7 @@ package com.ut3.bbt.game;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,6 +11,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.TextView;
 
+import com.ut3.bbt.R;
+import com.ut3.bbt.entities.Entity;
 import com.ut3.bbt.entities.Obstacle;
 import com.ut3.bbt.entities.Player;
 import com.ut3.bbt.entities.Rock;
@@ -62,12 +65,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         public void initialiseGame() {
-                int margin = 50;
-                player = new Player(width/2, 50, 10, 1,context);
+                // Initialise texte
                 scoreview = new TextView(context);
                 scoreview.setText(("score"));
-                walls.add(new Wall(margin, 0, 50, height));
-                walls.add(new Wall(width - margin * 2, 0, margin, height));
+
+                // Initiate walls
+                int wallWidth = BitmapFactory.decodeResource(context.getResources(), R.drawable.snow_left).getWidth();
+                int wallHeight = BitmapFactory.decodeResource(context.getResources(), R.drawable.snow_left).getHeight();
+                Wall wallLeft = new Wall(0, 0, wallWidth, height);
+                Wall wallRight = new Wall(width - wallWidth, 0, wallWidth, height);
+                wallLeft.setBmp(BitmapFactory.decodeResource(context.getResources(), R.drawable.snow_left));
+                wallRight.setBmp(BitmapFactory.decodeResource(context.getResources(), R.drawable.snow_right));
+
+                walls.add(wallLeft);
+                walls.add(wallRight);
+
+                // Initialiser player
+                player = new Player(width/2, 50, 10, 1, wallWidth/2, width - wallWidth/2,  context);
 
                 skiers.add(new Skier(Math.random() * width, height, Math.random() * 2 + 2,context));
         }
@@ -96,14 +110,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         canvas.drawColor(Color.WHITE);
 
                         // Draw Game
-                        obstacles.forEach(obstacle -> obstacle.draw(canvas));
-                        skiers.forEach(skier -> skier.draw(canvas));
-                        player.draw(canvas);
-                        walls.get(0).draw2(canvas);
-                        walls.get(1).draw2(canvas);
+                        walls.get(0).draw(canvas);
+                        walls.get(1).draw(canvas);
 
+                        // Dessiner entités dans la bonne profondeur
+                        List<Entity> entities = new ArrayList<Entity>();
+                        entities.addAll(obstacles);
+                        entities.addAll(skiers);
+                        entities.add(player);
+                        entities.sort((e1, e2) -> (int) (e1.getY() + e1.getHitBox().x + e1.getHitBox().height - (e2.getY() + e2.getHitBox().x + e2.getHitBox().height)));
+                        entities.forEach(entity -> entity.draw(canvas));
+
+                        // Fog filter
                         Paint opacityPaint = new Paint();
-                        opacityPaint.setColor(Color.BLACK);
+                        opacityPaint.setColor(Color.WHITE);
                         opacityPaint.setAlpha((int) Math.max(0, 200 - 200 * captorActivity.lightFactor));
                         canvas.drawRect(0, 0, width, height, opacityPaint);
 
@@ -121,7 +141,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 thread.setRunning(true);
         }
 
-        public void endGame(){
+        public void endGame() {
+                thread.setRunning(false);
                 SharedPreferences sharedp = context.getSharedPreferences("gameEnd",Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedp.edit();
                 editor.putInt("score",score).apply();
@@ -137,7 +158,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         endGame();
                 }
 
-                if (Math.random() * 100 < 1) {
+                if (Math.random() * 100 < 1 || obstacles.size() + skiers.size() < 3) {
                         createEntity();
                 }
 
@@ -160,6 +181,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 player.update();
 
                 // Scroll
+                walls.forEach(wall -> wall.scroll(scrollSpeed));
                 obstacles.forEach(obstacle -> obstacle.scroll(scrollSpeed));
                 skiers.forEach(skier -> skier.scroll(scrollSpeed));
 
@@ -174,7 +196,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 } else if (random < 8) {
                         obstacles.add(new Tree(Math.random() * width, height,context));
                 } else if (random < 10) {
-                        skiers.add(new Skier(Math.random() * width, height / 2, Math.random() * 2 + 2, context));
+                        skiers.add(new Skier(Math.random() * width, height, Math.random() * 2 + 2, context));
                 }
         }
 

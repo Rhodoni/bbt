@@ -11,11 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Bbt"
-        android:screenOrientation="portrait"
         tools:targetApi="31">
         <activity
             android:name=".viewholder.Opening"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -24,8 +24,12 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".viewholder.Score"></activity>
-        <activity android:name=".game.Pause"></activity>
+        <activity
+            android:name=".viewholder.Score"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".game.Pause"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
