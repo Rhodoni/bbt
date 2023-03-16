@@ -23,7 +23,6 @@ public abstract class Movable extends Entity {
         this.turning = false;
 
         this.hurtBox = new CollideBox(0, 0, width, height);
-
     }
 
     public void checkCollision(Entity entity) {

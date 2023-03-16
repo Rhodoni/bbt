@@ -14,7 +14,6 @@ public class GameThread extends Thread{
     private long lastTime;
     private final long framerate = 30;
 
-
     public GameThread(SurfaceHolder surfaceHolder, GameView gameView) {
         super();
         this.surfaceHolder = surfaceHolder;

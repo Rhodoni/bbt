@@ -54,7 +54,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
                 sharedp = context.getSharedPreferences("gameEnd",Context.MODE_PRIVATE);
 
-
                 getHolder().addCallback(this);
                 DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
                 width = displayMetrics.widthPixels;
@@ -123,10 +122,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 if (player.isDead){
                         endGame();
                 }
+
                 score += 1;
-                if(score > 5){
-                        endGame();
-                }
+
                 if (Math.random() * 100 < 1) {
                         createEntity();
                 }
@@ -163,7 +161,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 } else if (random < 8) {
                         obstacles.add(new Tree(Math.random() * width, height));
                 } else if (random < 10) {
-                        System.out.println("HOAIZHDO");
                         skiers.add(new Skier(Math.random() * width, height / 2, Math.random() * 2 + 2));
                 }
         }

@@ -13,7 +13,6 @@ public class Player extends Movable {
 
     public Player(double x, double y, double maxSpeed, double speed) {
         super(x, y, maxSpeed);
-        hitBox = new CollideBox(0, 0, 5, 10);
 
         paint.setColor(Color.BLUE);
     }
@@ -36,6 +35,7 @@ public class Player extends Movable {
     public void scream() {
 
     }
+
     public void die(){
         isDead = true;
     }
@@ -47,10 +47,15 @@ public class Player extends Movable {
 
     @Override
     public void collision(Entity entity) {
+        System.out.println("PLAYER COLLITION");
         if (entity instanceof Obstacle) {
-            if( ! ((Obstacle) entity).isJumpable() && jumping){
+            Obstacle obstacle = (Obstacle) entity;
+            if (!obstacle.isJumpable() && jumping) {
+                System.out.println("DEAD");
                 die();
             }
+        } else if (entity instanceof Skier) {
+            die();
         }
     }
 }
