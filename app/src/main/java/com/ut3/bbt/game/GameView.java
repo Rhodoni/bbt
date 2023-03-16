@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
 
@@ -41,6 +42,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         private List<Wall> walls = new ArrayList<>();
         private Player player;
         private int score = 0;
+        private TextView scoreview;
 
         //SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
@@ -66,7 +68,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         public void initialiseGame() {
                 int margin = 50;
                 scrollSpeed = 5;
-                player = new Player(width/2, 50, 10, 1);
+                player = new Player(width/2, 200, 10, 1);
+                scoreview = new TextView(context);
+                scoreview.setText(("score"));
                 walls.add(new Wall(margin, 0, 50, height));
                 walls.add(new Wall(width - margin * 2, 0, margin, height));
 
@@ -113,8 +117,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         public void endGame(){
+
+                SharedPreferences sharedp = context.getSharedPreferences("gameEnd",Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedp.edit();
-                editor.putInt("score", score);
+                editor.putInt("score",score).apply();
                 ((Opening)context).endingGame();
         }
 
