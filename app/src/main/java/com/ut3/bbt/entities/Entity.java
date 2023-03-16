@@ -1,5 +1,6 @@
 package com.ut3.bbt.entities;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,6 +13,7 @@ public abstract class Entity {
     protected double height;
     protected CollideBox hitBox;
     protected Paint paint;
+    protected Bitmap bmp;
 
     public Entity(double x, double y, double width, double height) {
         this.x = x;
@@ -27,6 +29,9 @@ public abstract class Entity {
     public abstract void update();
 
     public void draw(Canvas canvas) {
+        canvas.drawBitmap(bmp, (float) (x + width), (float) (y + height), paint);
+    }
+    public void draw2(Canvas canvas) {
         canvas.drawRect((float) x, (float) y, (float) (x + width), (float) (y + height), paint);
     }
 

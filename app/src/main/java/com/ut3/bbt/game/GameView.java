@@ -66,11 +66,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         public void initialiseGame() {
                 int margin = 50;
                 scrollSpeed = 5;
-                player = new Player(width/2, 50, 10, 1);
+                player = new Player(width/2, 50, 10, 1,context);
                 walls.add(new Wall(margin, 0, 50, height));
                 walls.add(new Wall(width - margin * 2, 0, margin, height));
 
-                skiers.add(new Skier(Math.random() * width, height, Math.random() * 2 + 2));
+                skiers.add(new Skier(Math.random() * width, height, Math.random() * 2 + 2,context));
         }
 
 
@@ -100,8 +100,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         obstacles.forEach(obstacle -> obstacle.draw(canvas));
                         skiers.forEach(skier -> skier.draw(canvas));
                         player.draw(canvas);
-                        walls.get(0).draw(canvas);
-                        walls.get(1).draw(canvas);
+                        walls.get(0).draw2(canvas);
+                        walls.get(1).draw2(canvas);
                 }
         }
 
@@ -157,11 +157,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         private void createEntity() {
                 double random = Math.random() * (10);
                 if (random < 4) {
-                        obstacles.add(new Rock(Math.random() * width, height));
+                        obstacles.add(new Rock(Math.random() * width, height, context));
                 } else if (random < 8) {
-                        obstacles.add(new Tree(Math.random() * width, height));
+                        obstacles.add(new Tree(Math.random() * width, height,context));
                 } else if (random < 10) {
-                        skiers.add(new Skier(Math.random() * width, height / 2, Math.random() * 2 + 2));
+                        skiers.add(new Skier(Math.random() * width, height / 2, Math.random() * 2 + 2, context));
                 }
         }
 

@@ -1,7 +1,11 @@
 package com.ut3.bbt.entities;
 
+import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Handler;
+
+import com.ut3.bbt.R;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -10,25 +14,27 @@ public class Player extends Movable {
 
     boolean jumping = false;
     public boolean isDead = false;
+    private Context context;
 
-    public Player(double x, double y, double maxSpeed, double speed) {
+    public Player(double x, double y, double maxSpeed, double speed, Context context) {
         super(x, y, maxSpeed);
-
+        this.context = context;
+        this.bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.skier);
         paint.setColor(Color.BLUE);
     }
 
     public void jump() {
         jumping = true;
-        paint.setColor(Color.CYAN);
+        this.bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.jumping);
         Executors.newSingleThreadScheduledExecutor()
-                .schedule(landAfterJumpRunnable,500, TimeUnit.MILLISECONDS);
+                .schedule(landAfterJumpRunnable,2000, TimeUnit.MILLISECONDS);
     }
 
     public Runnable landAfterJumpRunnable = new Runnable() {
         @Override
         public void run() {
             jumping = false;
-            paint.setColor(Color.BLUE);
+            bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.skier);
         }
     };
 

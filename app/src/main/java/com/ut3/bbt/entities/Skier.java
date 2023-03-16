@@ -1,14 +1,20 @@
 package com.ut3.bbt.entities;
 
+import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
+
+import com.ut3.bbt.R;
 
 public class Skier extends Movable implements Scrollable {
 
 
-    public Skier(double x, double y, double maxSpeed) {
+    public Skier(double x, double y, double maxSpeed, Context context) {
         super(x, y, maxSpeed);
         paint.setColor(Color.RED);
+        this.bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.ops);
+
     }
 
     public void goAway(Entity entity) {
