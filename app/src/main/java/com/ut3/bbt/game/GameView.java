@@ -113,8 +113,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         public void endGame(){
+
+                SharedPreferences sharedp = context.getSharedPreferences("gameEnd",Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedp.edit();
-                editor.putInt("score",score);
+                editor.putInt("score",score).apply();
                 ((Opening)context).endingGame();
         }
 
@@ -124,6 +126,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
 
                 score += 1;
+               /* if(score > 5){
+                        endGame();
+                }*/
 
                 if (Math.random() * 100 < 1) {
                         createEntity();

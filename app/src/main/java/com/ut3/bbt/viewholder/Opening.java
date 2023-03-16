@@ -29,6 +29,10 @@ public class Opening extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.opening);
 
+        SharedPreferences sharedp = this.getSharedPreferences("gameEnd",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor2 = sharedp.edit();
+        //editor2.putInt("score",777);
+
         sharedPreferences = this.getSharedPreferences("game", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         gameRunning = sharedPreferences.getBoolean("gameRunning", false);
