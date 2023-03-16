@@ -26,6 +26,7 @@ public abstract class Movable extends Entity {
         this.hurtBox = new CollideBox(0, 0, width, height);
     }
 
+
     public void checkCollision(Entity entity) {
         if (x + hurtBox.x < entity.x + entity.hitBox.x + entity.hitBox.width &&
             x + hurtBox.x + hurtBox.width > entity.x + entity.hitBox.x &&

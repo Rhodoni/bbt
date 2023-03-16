@@ -7,9 +7,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
-
-import java.util.ArrayList;
 
 
 public class CaptorActivity implements SensorEventListener {
@@ -20,11 +17,13 @@ public class CaptorActivity implements SensorEventListener {
     // Attributs
     public boolean isJumping = false;
     public double playerAcceleration = 0;
+    public double lightFactor = 0;
 
     public void setUpSensors(Context context){
         sm = (SensorManager) context.getSystemService(SENSOR_SERVICE);
         sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_DELAY_GAME );
         sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR),SensorManager.SENSOR_DELAY_GAME );
+        sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_LIGHT),SensorManager.SENSOR_DELAY_GAME );
     }
 
     @Override
@@ -55,6 +54,13 @@ public class CaptorActivity implements SensorEventListener {
 
                     this.playerAcceleration = orientationAngles[2];
 
+                    break;
+                case Sensor.TYPE_LIGHT:
+                    float value = sensorEvent.values[0];
+                    float delta = 100;
+
+                    // Normalisation par fonction sigmoid
+                    this.lightFactor = value / (value + delta);
                     break;
             }
         }

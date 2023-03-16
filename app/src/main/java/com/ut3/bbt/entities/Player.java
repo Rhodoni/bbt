@@ -29,7 +29,7 @@ public class Player extends Movable {
         this.bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.skier);
         paint.setColor(Color.BLUE);
 
-        this.hitBox = new CollideBox(width / 4, 0, width / 2, height);
+        this.hitBox = new CollideBox(width / 4, height * 3 / 4, width / 2, height / 4);
         this.hurtBox = this.hitBox;
     }
 

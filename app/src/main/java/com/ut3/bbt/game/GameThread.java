@@ -10,7 +10,6 @@ public class GameThread extends Thread{
     private boolean running;
     private Canvas canvas;
 
-
     private long lastTime;
     private final long framerate = 30;
 

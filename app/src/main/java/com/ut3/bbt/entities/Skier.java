@@ -23,7 +23,7 @@ public class Skier extends Movable implements Scrollable {
 
         paint.setColor(Color.RED);
 
-        this.hitBox = new CollideBox(width / 4, height / 2, width / 2, height / 2);
+        this.hitBox = new CollideBox(width / 4, height * 3 / 4, width / 2, height / 4);
         this.hurtBox = new CollideBox( -width / 2, 0, width * 2, height * 2);
     }
 

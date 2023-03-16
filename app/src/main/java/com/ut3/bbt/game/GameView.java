@@ -1,8 +1,6 @@
 package com.ut3.bbt.game;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -12,15 +10,12 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.TextView;
 
-import androidx.activity.OnBackPressedCallback;
-
 import com.ut3.bbt.entities.Obstacle;
 import com.ut3.bbt.entities.Player;
 import com.ut3.bbt.entities.Rock;
 import com.ut3.bbt.entities.Skier;
 import com.ut3.bbt.entities.Tree;
 import com.ut3.bbt.entities.Wall;
-import com.ut3.bbt.game.GameThread;
 import com.ut3.bbt.viewholder.Opening;
 
 import java.util.ArrayList;
@@ -107,9 +102,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         walls.get(0).draw2(canvas);
                         walls.get(1).draw2(canvas);
 
+                        Paint opacityPaint = new Paint();
+                        opacityPaint.setColor(Color.BLACK);
+                        opacityPaint.setAlpha((int) Math.max(0, 200 - 200 * captorActivity.lightFactor));
+                        canvas.drawRect(0, 0, width, height, opacityPaint);
+
+                        // Draw score
                         Paint paint = new Paint();
                         paint.setTextSize(50);
-                        canvas.drawText(String.valueOf(score),width/2,100,paint);
+                        canvas.drawText(String.valueOf(score),width/2,100, paint);
                 }
         }
 
@@ -121,7 +122,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         public void endGame(){
-
                 SharedPreferences sharedp = context.getSharedPreferences("gameEnd",Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedp.edit();
                 editor.putInt("score",score).apply();
@@ -179,7 +179,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         private void updateDifficulty() {
-                this.scrollSpeed = (int) Math.round(10 + Math.sqrt(this.score) / 100);
+                // Vitesse de scroll dépendante du score
+                double scoreSpeed = (double) this.score / (this.score + 1000) * 20;
+
+                // Vitesse de scroll dépendante de la lumière
+                this.scrollSpeed = (int) Math.round((10 + scoreSpeed) * captorActivity.lightFactor);
         }
 
         private void cleanEntities() {
