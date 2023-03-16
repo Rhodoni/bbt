@@ -1,5 +1,6 @@
 package com.ut3.bbt.game;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +20,7 @@ import com.ut3.bbt.entities.Skier;
 import com.ut3.bbt.entities.Tree;
 import com.ut3.bbt.entities.Wall;
 import com.ut3.bbt.game.GameThread;
+import com.ut3.bbt.viewholder.Opening;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +30,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         private GameThread thread;
         private int width,height;
         private CaptorActivity captorActivity;
+
         private boolean gameStarted;
+        private boolean gameEnd;
+        SharedPreferences sharedp;
 
         private int scrollSpeed;
         private List<Obstacle> obstacles = new ArrayList<Obstacle>();
         private List<Skier> skiers = new ArrayList<Skier>();
         private List<Wall> walls = new ArrayList<>();
         private Player player;
+        private int score = 0;
+
+        //SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
         public GameView(Context context) {
                 super(context);
@@ -43,6 +51,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
                 SharedPreferences sh = context.getSharedPreferences("gameStarted",Context.MODE_PRIVATE);
                 gameStarted = sh.getBoolean("gameStarted",gameStarted);
+
+                sharedp = context.getSharedPreferences("gameEnd",Context.MODE_PRIVATE);
+
 
                 getHolder().addCallback(this);
                 DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
@@ -101,7 +112,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         public void unpause(){
                 thread.setRunning(true);
         }
+
+        public void endGame(){
+                SharedPreferences.Editor editor = sharedp.edit();
+                editor.putInt("score",score);
+                ((Opening)context).endingGame();
+        }
+
         public void update() {
+                if (player.isDead){
+                        endGame();
+                }
+                score += 1;
+                if(score > 5){
+                        endGame();
+                }
                 if (Math.random() * 100 < 1) {
                         createEntity();
                 }

@@ -10,6 +10,7 @@ public class GameThread extends Thread{
     private boolean running;
     private Canvas canvas;
 
+
     public GameThread(SurfaceHolder surfaceHolder, GameView gameView) {
         super();
         this.surfaceHolder = surfaceHolder;

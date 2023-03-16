@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 public class Player extends Movable {
 
     boolean jumping = false;
+    public boolean isDead = false;
 
     public Player(double x, double y, double maxSpeed, double speed) {
         super(x, y, maxSpeed);
@@ -34,6 +35,9 @@ public class Player extends Movable {
 
     public void scream() {
 
+    }
+    public void die(){
+        isDead = true;
     }
 
     @Override

@@ -54,6 +54,13 @@ public class Opening extends Activity {
             startActivityForResult(pauseIntent, 1);
         }
     }
+
+    public void endingGame(){
+        Intent scoreIntent = new Intent(this, Score.class);
+        finish();
+        startActivity(scoreIntent);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
