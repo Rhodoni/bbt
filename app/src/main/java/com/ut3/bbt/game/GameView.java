@@ -31,7 +31,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         private boolean gameEnd;
         SharedPreferences sharedp;
 
-        private int scrollSpeed;
+        private final int baseScrollSpeed = 15;
+        private int scrollSpeed = baseScrollSpeed;
         private List<Obstacle> obstacles = new ArrayList<Obstacle>();
         private List<Skier> skiers = new ArrayList<Skier>();
         private List<Wall> walls = new ArrayList<>();
@@ -62,7 +63,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         public void initialiseGame() {
                 int margin = 50;
-                scrollSpeed = 5;
                 player = new Player(width/2, 50, 10, 1,context);
                 scoreview = new TextView(context);
                 scoreview.setText(("score"));
@@ -130,10 +130,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         public void update() {
                 // Update level
-                score += 1;
+                score += Math.max(1, scrollSpeed / 10);
                 updateDifficulty();
 
-                if (player.isDead){
+                if (player.isDead) {
                         endGame();
                 }
 
@@ -183,7 +183,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 double scoreSpeed = (double) this.score / (this.score + 1000) * 20;
 
                 // Vitesse de scroll dépendante de la lumière
-                this.scrollSpeed = (int) Math.round((10 + scoreSpeed) * captorActivity.lightFactor);
+                this.scrollSpeed = baseScrollSpeed / 2 + (int) Math.round((baseScrollSpeed/2 + scoreSpeed) * captorActivity.lightFactor);
         }
 
         private void cleanEntities() {
