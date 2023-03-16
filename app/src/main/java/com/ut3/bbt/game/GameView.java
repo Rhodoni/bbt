@@ -114,16 +114,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         public void endGame(){
                 SharedPreferences.Editor editor = sharedp.edit();
-                editor.putInt("score",score);
+                editor.putInt("score", score);
                 ((Opening)context).endingGame();
         }
 
         public void update() {
+                // Update level
+                score += 1;
+                updateDifficulty();
+
                 if (player.isDead){
                         endGame();
                 }
-
-                score += 1;
 
                 if (Math.random() * 100 < 1) {
                         createEntity();
@@ -138,7 +140,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         skier.checkCollision(walls.get(1));
                 });
 
-                // Update
+                // Update entities
                 skiers.forEach(Skier::update);
                 if (captorActivity.isJumping) {
                         player.jump();
@@ -163,6 +165,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 } else if (random < 10) {
                         skiers.add(new Skier(Math.random() * width, height / 2, Math.random() * 2 + 2));
                 }
+        }
+
+        private void updateDifficulty() {
+                this.scrollSpeed = (int) Math.round(10 + Math.sqrt(this.score) / 100);
         }
 
         private void cleanEntities() {
