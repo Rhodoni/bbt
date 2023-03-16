@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".viewholder.Opening">
 
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="108dp"
+        android:src="@drawable/rocks"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSubTitle" />
+
     <Button
         android:id="@+id/btGame"
         android:layout_width="wrap_content"
@@ -13,7 +23,8 @@
         android:layout_marginStart="158dp"
         android:layout_marginEnd="159dp"
         android:layout_marginBottom="252dp"
-        android:text="Start"
+        android:backgroundTint="@color/purple_700"
+        android:text="Commencer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -22,9 +33,12 @@
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="144dp"
-        android:layout_marginTop="156dp"
-        android:text="Snowboarder game"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="136dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Le jeu du skieur "
+        android:textAlignment="center"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,10 +46,12 @@
         android:id="@+id/tvSubTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
+        android:layout_marginStart="80dp"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="534dp"
-        android:text="A game made by Amsif, Loup--Hadamard, Vicente"
+        android:fontFamily="sans-serif-black"
+        android:text="A game made by Alex, David et Flavien"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"
@@ -48,9 +64,100 @@
         android:layout_marginStart="158dp"
         android:layout_marginEnd="159dp"
         android:layout_marginBottom="179dp"
+        android:backgroundTint="@color/purple_700"
         android:text="Score"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="87dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="216dp"
+        android:layout_marginTop="292dp"
+        android:src="@drawable/skier"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="65dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="7dp"
+        android:src="@drawable/tree"
+        app:layout_constraintStart_toEndOf="@+id/tvTitle"
+        app:layout_constraintTop_toBottomOf="@+id/imageView9" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="103dp"
+        android:layout_height="157dp"
+        android:layout_marginTop="216dp"
+        android:layout_marginEnd="44dp"
+        android:src="@drawable/tree"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="96dp"
+        android:layout_height="104dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/tree"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="77dp"
+        android:layout_height="88dp"
+        android:layout_marginStart="79dp"
+        android:layout_marginTop="51dp"
+        android:src="@drawable/tree"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSubTitle" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="488dp"
+        android:src="@drawable/rocks"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/rocks"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="113dp"
+        android:layout_height="128dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="460dp"
+        android:src="@drawable/jumping"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="53dp"
+        android:layout_marginBottom="227dp"
+        android:src="@drawable/ops"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

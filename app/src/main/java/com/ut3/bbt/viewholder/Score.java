@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ut3.bbt.R;
+import com.ut3.bbt.game.Pause;
 
 public class Score extends Activity {
     SharedPreferences sharedPref;
@@ -40,7 +41,9 @@ public class Score extends Activity {
     }
     @Override
     public void onBackPressed(){
+        Intent mainAct = new Intent(this, Opening.class);
         finish();
+        startActivity(mainAct);
     }
 
     class ScoreAdapter extends RecyclerView.Adapter{
