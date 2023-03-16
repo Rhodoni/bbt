@@ -9,18 +9,24 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 
 public class CaptorActivity implements SensorEventListener {
 
     private SensorManager sm;
-    public boolean isJumping = false;
     private float old_x = 0, old_y = 0, old_z = 0 ;
+
+    // Attributs
+    public boolean isJumping = false;
+    public double playerAcceleration = 0;
 
     public void setUpSensors(Context context){
         sm = (SensorManager) context.getSystemService(SENSOR_SERVICE);
         sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_DELAY_GAME );
         sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR),SensorManager.SENSOR_DELAY_GAME );
     }
+
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         int sensor = sensorEvent.sensor.getType();
@@ -28,8 +34,8 @@ public class CaptorActivity implements SensorEventListener {
         float magField_x=0,magField_y=0,magField_z=0;
         long lastUpdate = 0 ;
 
-        synchronized (this){
-            switch(sensor){
+        synchronized (this) {
+            switch(sensor) {
                 case Sensor.TYPE_ACCELEROMETER :
                     long curTime = System.currentTimeMillis();
                     if ( curTime - lastUpdate >100){
@@ -40,6 +46,14 @@ public class CaptorActivity implements SensorEventListener {
                     }
                     break;
                 case Sensor.TYPE_GAME_ROTATION_VECTOR:
+
+                    float[] rotationMatrix = new float[9];
+                    SensorManager.getRotationMatrixFromVector(rotationMatrix, sensorEvent.values);
+
+                    float[] orientationAngles = new float[3];
+                    SensorManager.getOrientation(rotationMatrix, orientationAngles);
+
+                    this.playerAcceleration = orientationAngles[2];
 
                     break;
             }

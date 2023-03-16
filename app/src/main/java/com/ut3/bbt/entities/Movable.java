@@ -69,4 +69,11 @@ public abstract class Movable extends Entity {
     public void die() {
         System.out.println("MORT");
     }
+
+    public double getAcceleration() {
+        return this.acceleration;
+    }
+    public void setAcceleration(double acceleration) {
+        this.acceleration = acceleration;
+    }
 }

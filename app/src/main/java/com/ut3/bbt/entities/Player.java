@@ -42,6 +42,7 @@ public class Player extends Movable {
 
     @Override
     public void update() {
+        super.update();
     }
 
     @Override
